@@ -1,0 +1,17 @@
+[Unit]
+Description=Nadha Relay FastAPI signaling service
+After=network.target
+
+[Service]
+User=nadha-relay
+Group=nadha-relay
+WorkingDirectory=/opt/nadha-relay/backend
+EnvironmentFile=/etc/nadha-relay/backend.env
+ExecStart=/opt/nadha-relay/backend/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 1 --proxy-headers
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
