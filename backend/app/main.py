@@ -156,7 +156,7 @@ async def signaling_socket(websocket: WebSocket, token: str) -> None:
     rate_key = f"relay:rate:{token}"
     try:
         while True:
-            raw_text = await asyncio.wait_for(websocket.receive_text(), timeout=30)
+            raw_text = await asyncio.wait_for(websocket.receive_text(), timeout=45)
             if len(raw_text.encode()) > settings.websocket_max_bytes:
                 await websocket.send_json({"type": "error", "code": "payload_too_large", "message": "That message is too large."}); continue
             try:

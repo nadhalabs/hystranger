@@ -5,6 +5,7 @@ import { getFallbackIceServers, serializeIceCandidate, signalingUrls } from "@/l
 import type { CallPhase, ChatItem, ReportReason, ServerMessage } from "@/types/signaling";
 
 const SIGNALING_TIMEOUT = 18_000;
+const PING_INTERVAL = 6_000;
 
 export function useRelayCall(localStream: MediaStream | null) {
   const [phase, setPhase] = useState<CallPhase>("idle");
@@ -21,6 +22,7 @@ export function useRelayCall(localStream: MediaStream | null) {
   const phaseRef = useRef<CallPhase>(phase);
   const iceServersRef = useRef<RTCIceServer[]>(getFallbackIceServers());
   const disconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isConnectingRef = useRef(false);
 
   useEffect(() => { localStreamRef.current = localStream; }, [localStream]);
   useEffect(() => { phaseRef.current = phase; }, [phase]);
@@ -28,6 +30,13 @@ export function useRelayCall(localStream: MediaStream | null) {
   const clearConnectionTimeout = useCallback(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = null;
+  }, []);
+
+  const clearHeartbeat = useCallback(() => {
+    if (heartbeatRef.current) {
+      clearInterval(heartbeatRef.current);
+      heartbeatRef.current = null;
+    }
   }, []);
 
   const closePeer = useCallback(() => {
@@ -42,11 +51,25 @@ export function useRelayCall(localStream: MediaStream | null) {
 
   const send = useCallback((payload: object) => {
     if (socketRef.current?.readyState !== WebSocket.OPEN) return false;
+    const type = (payload as { type?: string }).type;
+    if (type === "ping") {
+      console.log("[useRelayCall] ping sent");
+    } else if (type === "join") {
+      console.log("[useRelayCall] join sent");
+    }
     socketRef.current.send(JSON.stringify(payload));
     return true;
   }, []);
 
+  const startHeartbeat = useCallback(() => {
+    clearHeartbeat();
+    heartbeatRef.current = setInterval(() => {
+      send({ type: "ping" });
+    }, PING_INTERVAL);
+  }, [clearHeartbeat, send]);
+
   const failPeer = useCallback((message: string) => {
+    console.log("[useRelayCall] timeout-triggered close:", message);
     send({ type: "client_failure", category: message.includes("too long") ? "connection_timeout" : "ice_failed" });
     closePeer();
     setError(message);
@@ -125,6 +148,8 @@ export function useRelayCall(localStream: MediaStream | null) {
     try { message = JSON.parse(event.data) as ServerMessage; } catch { return; }
     if (message.type === "ready") {
       send({ type: "join" });
+    } else if (message.type === "pong") {
+      console.log("[useRelayCall] pong received:", message);
     } else if (message.type === "searching") {
       setPhase("searching");
     } else if (message.type === "matched") {
@@ -164,14 +189,21 @@ export function useRelayCall(localStream: MediaStream | null) {
 
   const start = useCallback(async () => {
     if (!localStreamRef.current) return;
+    if (isConnectingRef.current) return;
     if (socketRef.current?.readyState === WebSocket.OPEN) {
       setPhase("searching");
       send({ type: "join" });
       return;
     }
+    if (socketRef.current?.readyState === WebSocket.CONNECTING) {
+      return;
+    }
+
+    isConnectingRef.current = true;
     setPhase("connecting-signal");
     setError(null);
     intentionalCloseRef.current = false;
+
     try {
       const urls = signalingUrls();
       let clientId = window.localStorage.getItem("nadha-relay-client-id");
@@ -189,11 +221,29 @@ export function useRelayCall(localStream: MediaStream | null) {
           if (iceData.iceServers.length) iceServersRef.current = iceData.iceServers;
         }
       } catch { /* STUN fallback remains available. */ }
-      const socket = new WebSocket(`${urls.socket}?token=${encodeURIComponent(data.sessionToken)}`);
+
+      const socketUrl = `${urls.socket}?token=${encodeURIComponent(data.sessionToken)}`;
+      console.log("[useRelayCall] socket created:", socketUrl);
+      const socket = new WebSocket(socketUrl);
       socketRef.current = socket;
+
+      socket.onopen = () => {
+        console.log("[useRelayCall] socket open");
+        isConnectingRef.current = false;
+        startHeartbeat();
+      };
+
       socket.onmessage = (event) => { void handleMessage(event); };
-      socket.onerror = () => setError("The signaling service is unavailable.");
-      socket.onclose = () => {
+
+      socket.onerror = (event) => {
+        console.error("[useRelayCall] socket error:", event);
+        setError("The signaling service is unavailable.");
+      };
+
+      socket.onclose = (event) => {
+        console.log("[useRelayCall] close event code:", event.code, "reason:", event.reason, "wasClean:", event.wasClean);
+        isConnectingRef.current = false;
+        clearHeartbeat();
         socketRef.current = null;
         if (!intentionalCloseRef.current) {
           closePeer();
@@ -201,13 +251,14 @@ export function useRelayCall(localStream: MediaStream | null) {
           setPhase("error");
         }
       };
-      heartbeatRef.current = setInterval(() => send({ type: "ping" }), 15_000);
     } catch {
+      isConnectingRef.current = false;
+      clearHeartbeat();
       socketRef.current = null;
       setError("hyStranger couldn’t reach the signaling service. Is the backend running?");
       setPhase("error");
     }
-  }, [closePeer, handleMessage, send]);
+  }, [clearHeartbeat, closePeer, handleMessage, send, startHeartbeat]);
 
   const findAnother = useCallback(() => {
     closePeer();
@@ -227,12 +278,11 @@ export function useRelayCall(localStream: MediaStream | null) {
     intentionalCloseRef.current = true;
     send({ type: "leave", reason: "stop" });
     closePeer();
-    if (heartbeatRef.current) clearInterval(heartbeatRef.current);
-    heartbeatRef.current = null;
+    clearHeartbeat();
     socketRef.current?.close(1000, "User stopped");
     socketRef.current = null;
     setPhase("idle");
-  }, [closePeer, send]);
+  }, [clearHeartbeat, closePeer, send]);
 
   const sendChat = useCallback((rawText: string) => {
     const text = rawText.trim().slice(0, 500);
@@ -252,11 +302,12 @@ export function useRelayCall(localStream: MediaStream | null) {
   }, [closePeer, send]);
 
   useEffect(() => () => {
+    console.log("[useRelayCall] cleanup-triggered close");
     intentionalCloseRef.current = true;
-    if (heartbeatRef.current) clearInterval(heartbeatRef.current);
+    clearHeartbeat();
     socketRef.current?.close(1000, "Page closed");
     peerRef.current?.close();
-  }, []);
+  }, [clearHeartbeat]);
 
   return { phase, remoteStream, messages, error, start, findAnother, cancelSearch, stop, sendChat, report, block };
 }
