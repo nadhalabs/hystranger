@@ -157,18 +157,18 @@ export function ChatPanel({
       </div>
 
       {/* Persistent Action Bar */}
-      <div className="relative mt-3 flex items-center gap-2 sm:gap-2.5">
-        {/* Large Prominent Next Button (Desktop only or optional on mobile) */}
+      <div className="relative mt-3.5 flex items-center gap-2 sm:gap-3">
+        {/* Next Button (Desktop) */}
         {!mobile && onNext && (
           <button
             type="button"
             onClick={onNext}
             disabled={nextDisabled}
-            className="flex h-13 min-w-[108px] shrink-0 items-center justify-center gap-2 rounded-2xl bg-neutral-900 px-4 text-white shadow-sm transition hover:bg-neutral-800 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200"
+            className="flex h-13 min-w-[124px] shrink-0 items-center justify-between rounded-2xl bg-neutral-900 px-4 text-white shadow-md transition hover:bg-neutral-800 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200"
             title="Next match (Esc)"
           >
             <div className="flex flex-col items-start text-left">
-              <span className="flex items-center gap-1 text-sm font-extrabold leading-tight">
+              <span className="flex items-center gap-1.5 text-sm font-extrabold leading-tight">
                 Next <ArrowRight size={14} weight="bold" />
               </span>
               <span className="text-[10px] font-medium text-neutral-300 dark:text-neutral-600">
@@ -181,7 +181,7 @@ export function ChatPanel({
         {/* Message Input with Emoji Button & Send Button */}
         <form
           onSubmit={submit}
-          className="flex h-13 flex-1 items-center gap-1.5 rounded-2xl border border-neutral-200/80 bg-neutral-50 px-3 transition focus-within:border-neutral-400 dark:border-white/10 dark:bg-[#161616] dark:focus-within:border-white/30"
+          className="flex h-13 flex-1 items-center gap-2 rounded-2xl border border-neutral-200/80 bg-neutral-50 px-3.5 transition focus-within:border-neutral-400 dark:border-white/10 dark:bg-[#181818] dark:focus-within:border-white/30"
         >
           <input
             ref={inputRef}
@@ -204,13 +204,13 @@ export function ChatPanel({
             title="Wave hello"
             aria-label="Wave hello"
           >
-            <Smiley size={18} />
+            <Smiley size={19} />
           </button>
 
           <button
             type="submit"
             disabled={!connected || !text.trim()}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-neutral-900 text-white transition hover:bg-neutral-800 active:scale-95 disabled:cursor-not-allowed disabled:opacity-25 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-neutral-900 text-white shadow-sm transition hover:bg-neutral-800 active:scale-95 disabled:cursor-not-allowed disabled:opacity-25 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200"
             aria-label="Send message"
           >
             <PaperPlaneRight size={16} weight="bold" />
@@ -222,11 +222,11 @@ export function ChatPanel({
           <button
             type="button"
             onClick={onReport}
-            className="hidden h-13 shrink-0 items-center gap-1.5 rounded-2xl border border-neutral-200/80 bg-white px-3.5 text-xs font-bold text-neutral-700 transition hover:bg-neutral-50 active:scale-95 dark:border-white/10 dark:bg-[#161616] dark:text-zinc-300 dark:hover:bg-[#202020] md:flex"
+            className="hidden h-13 shrink-0 items-center gap-1.5 rounded-2xl border border-neutral-200/80 bg-white px-4 text-xs font-bold text-neutral-700 shadow-sm transition hover:bg-neutral-50 active:scale-95 dark:border-white/10 dark:bg-[#181818] dark:text-zinc-300 dark:hover:bg-[#222] md:flex"
             title="Report stranger"
             aria-label="Report stranger"
           >
-            <Flag size={15} />
+            <Flag size={15} weight="bold" />
             <span>Report</span>
           </button>
         )}
@@ -237,16 +237,16 @@ export function ChatPanel({
             <button
               type="button"
               onClick={() => setMoreMenuOpen(!moreMenuOpen)}
-              className="flex h-13 w-11 shrink-0 items-center justify-center rounded-2xl border border-neutral-200/80 bg-white text-neutral-700 transition hover:bg-neutral-50 active:scale-95 dark:border-white/10 dark:bg-[#161616] dark:text-zinc-300 dark:hover:bg-[#202020]"
+              className="flex h-13 w-12 shrink-0 items-center justify-center rounded-2xl border border-neutral-200/80 bg-white text-neutral-700 shadow-sm transition hover:bg-neutral-50 active:scale-95 dark:border-white/10 dark:bg-[#181818] dark:text-zinc-300 dark:hover:bg-[#222]"
               title="More actions"
               aria-label="More actions"
             >
-              <DotsThree size={20} weight="bold" />
+              <DotsThree size={22} weight="bold" />
             </button>
 
             {moreMenuOpen && (
               <div
-                className="absolute bottom-15 right-0 z-20 w-40 overflow-hidden rounded-2xl border border-neutral-200/80 bg-white p-1 text-xs shadow-xl transition-colors dark:border-white/15 dark:bg-[#181818]"
+                className="absolute bottom-16 right-0 z-20 w-44 overflow-hidden rounded-2xl border border-neutral-200/80 bg-white p-1.5 text-xs shadow-2xl transition-colors dark:border-white/15 dark:bg-[#181818]"
                 onMouseLeave={() => setMoreMenuOpen(false)}
               >
                 {onReport && (
@@ -256,9 +256,9 @@ export function ChatPanel({
                       setMoreMenuOpen(false);
                       onReport();
                     }}
-                    className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left font-medium text-neutral-800 transition hover:bg-neutral-100 dark:text-zinc-200 dark:hover:bg-white/10"
+                    className="flex w-full items-center gap-2 rounded-xl px-3.5 py-2.5 text-left font-semibold text-neutral-800 transition hover:bg-neutral-100 dark:text-zinc-200 dark:hover:bg-white/10"
                   >
-                    <Flag size={14} /> Report stranger
+                    <Flag size={15} /> Report stranger
                   </button>
                 )}
                 <button
@@ -267,9 +267,9 @@ export function ChatPanel({
                     setMoreMenuOpen(false);
                     onStop();
                   }}
-                  className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left font-medium text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/15"
+                  className="flex w-full items-center gap-2 rounded-xl px-3.5 py-2.5 text-left font-semibold text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/15"
                 >
-                  <PhoneDisconnect size={14} /> Leave chat
+                  <PhoneDisconnect size={15} /> Leave chat
                 </button>
               </div>
             )}

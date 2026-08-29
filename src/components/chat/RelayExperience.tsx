@@ -4,13 +4,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowRight,
-  Camera,
-  CameraSlash,
   ChatCircleDots,
+  Flag,
   Heart,
   LockKey,
-  Microphone,
-  MicrophoneSlash,
   PhoneDisconnect,
   Question,
   ShieldCheck,
@@ -129,11 +126,7 @@ export function RelayExperience({ media, call }: Props) {
           {/* Bottom: Local / Self Video Panel */}
           <LocalVideoPanel
             stream={media.stream}
-            cameraEnabled={media.cameraEnabled}
-            microphoneEnabled={media.microphoneEnabled}
             loading={media.loading}
-            onToggleCamera={media.toggleCamera}
-            onToggleMicrophone={media.toggleMicrophone}
             onOpenSettings={() => setSettingsOpen(true)}
           />
         </section>
@@ -161,8 +154,8 @@ export function RelayExperience({ media, call }: Props) {
       </main>
 
       {/* ================= MOBILE VIEW (< 1024px) ================= */}
-      <div className="flex min-h-0 flex-1 flex-col p-2.5 pb-20 overflow-hidden lg:hidden">
-        {/* Full-bleed Video Stage with Floating PiP Self Preview */}
+      <div className="flex min-h-0 flex-1 flex-col p-2.5 pb-24 overflow-hidden lg:hidden">
+        {/* Unified Mobile Video Stage */}
         <StrangerVideoPanel
           stream={call.remoteStream}
           phase={call.phase}
@@ -173,39 +166,40 @@ export function RelayExperience({ media, call }: Props) {
           onStop={stop}
           className="h-full w-full"
         >
-          {/* Mobile Floating PiP Self Camera Preview */}
+          {/* Floating PiP Self Camera Preview */}
           <LocalVideoPanel
             pip
             stream={media.stream}
-            cameraEnabled={media.cameraEnabled}
-            microphoneEnabled={media.microphoneEnabled}
             loading={media.loading}
-            onToggleCamera={media.toggleCamera}
-            onToggleMicrophone={media.toggleMicrophone}
-            onOpenSettings={() => setSettingsOpen(true)}
             className="absolute top-3 right-3 z-20"
           />
         </StrangerVideoPanel>
       </div>
 
-      {/* ================= MOBILE FIXED BOTTOM ACTION BAR ================= */}
-      <div className="fixed bottom-0 inset-x-0 z-30 flex items-center gap-2 border-t border-neutral-200/80 bg-white/95 px-3 py-2.5 shadow-lg backdrop-blur-lg dark:border-white/10 dark:bg-[#0c0c0c]/95 pb-safe lg:hidden">
-        {/* Large Prominent Next Button */}
+      {/* ================= ELEVATED MOBILE BOTTOM ACTION BAR ================= */}
+      <div className="fixed bottom-3.5 inset-x-3 sm:inset-x-6 z-30 flex items-center gap-2 rounded-3xl border border-neutral-200/90 bg-white/95 p-2 shadow-2xl backdrop-blur-xl dark:border-white/15 dark:bg-[#121212]/95 lg:hidden">
+        {/* Prominent Next Button */}
         <button
           type="button"
           onClick={call.findAnother}
           disabled={searching || peerConnecting}
-          className="flex h-13 flex-1 items-center justify-center gap-2 rounded-2xl bg-neutral-900 px-4 font-extrabold text-white shadow-sm transition hover:bg-neutral-800 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200"
+          className="flex h-13 flex-1 items-center justify-between rounded-2xl bg-neutral-900 px-4 text-white shadow-md transition hover:bg-neutral-800 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200"
         >
-          <span className="text-base font-extrabold leading-none">Next</span>
-          <ArrowRight size={17} weight="bold" />
+          <div className="flex flex-col items-start text-left">
+            <span className="flex items-center gap-1.5 text-sm font-extrabold leading-tight">
+              Next <ArrowRight size={14} weight="bold" />
+            </span>
+            <span className="text-[10px] font-medium text-neutral-300 dark:text-neutral-600">
+              Find new match
+            </span>
+          </div>
         </button>
 
         {/* Chat Drawer Toggle Button */}
         <button
           type="button"
           onClick={() => setChatOpen(true)}
-          className="relative flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl border border-neutral-200/80 bg-neutral-100 text-neutral-900 shadow-sm transition active:scale-95 dark:border-white/10 dark:bg-[#161616] dark:text-white"
+          className="relative flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl border border-neutral-200/80 bg-neutral-100 text-neutral-900 shadow-sm transition active:scale-95 dark:border-white/10 dark:bg-[#181818] dark:text-white"
           aria-label="Open chat"
           title="Open chat"
         >
@@ -217,52 +211,23 @@ export function RelayExperience({ media, call }: Props) {
           )}
         </button>
 
-        {/* Microphone Mute/Unmute */}
+        {/* Report Button */}
         <button
           type="button"
-          onClick={media.toggleMicrophone}
-          disabled={media.loading}
-          className={`flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl border transition active:scale-95 ${
-            media.microphoneEnabled
-              ? "border-neutral-200/80 bg-neutral-100 text-neutral-900 dark:border-white/10 dark:bg-[#161616] dark:text-white"
-              : "border-red-300 bg-red-50 text-red-600 dark:border-red-500/30 dark:bg-red-500/20 dark:text-red-300"
-          }`}
-          title={media.microphoneEnabled ? "Mute microphone" : "Unmute microphone"}
-          aria-label={media.microphoneEnabled ? "Mute microphone" : "Unmute microphone"}
+          onClick={() => setReportOpen(true)}
+          className="flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl border border-neutral-200/80 bg-neutral-100 text-neutral-700 shadow-sm transition active:scale-95 dark:border-white/10 dark:bg-[#181818] dark:text-zinc-300"
+          title="Report stranger"
+          aria-label="Report stranger"
         >
-          {media.microphoneEnabled ? (
-            <Microphone size={20} weight="fill" />
-          ) : (
-            <MicrophoneSlash size={20} weight="fill" />
-          )}
-        </button>
-
-        {/* Camera On/Off */}
-        <button
-          type="button"
-          onClick={media.toggleCamera}
-          disabled={media.loading}
-          className={`flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl border transition active:scale-95 ${
-            media.cameraEnabled
-              ? "border-neutral-200/80 bg-neutral-100 text-neutral-900 dark:border-white/10 dark:bg-[#161616] dark:text-white"
-              : "border-red-300 bg-red-50 text-red-600 dark:border-red-500/30 dark:bg-red-500/20 dark:text-red-300"
-          }`}
-          title={media.cameraEnabled ? "Turn off camera" : "Turn on camera"}
-          aria-label={media.cameraEnabled ? "Turn off camera" : "Turn on camera"}
-        >
-          {media.cameraEnabled ? (
-            <Camera size={20} weight="fill" />
-          ) : (
-            <CameraSlash size={20} weight="fill" />
-          )}
+          <Flag size={18} weight="bold" />
         </button>
 
         {/* Leave / Disconnect */}
         <button
           type="button"
           onClick={stop}
-          className="flex h-13 w-11 shrink-0 items-center justify-center rounded-2xl border border-red-200 bg-red-50 text-red-600 transition hover:bg-red-100 active:scale-95 dark:border-red-500/30 dark:bg-red-500/15 dark:text-red-400"
-          title="Leave and return home"
+          className="flex h-13 w-12 shrink-0 items-center justify-center rounded-2xl border border-red-200 bg-red-50 text-red-600 shadow-sm transition hover:bg-red-100 active:scale-95 dark:border-red-500/30 dark:bg-red-500/15 dark:text-red-400"
+          title="Leave chat"
           aria-label="Leave chat"
         >
           <PhoneDisconnect size={18} weight="bold" />
