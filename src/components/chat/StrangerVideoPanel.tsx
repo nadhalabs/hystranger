@@ -176,24 +176,24 @@ export function StrangerVideoPanel({
         <button
           type="button"
           onClick={onReport}
-          className="absolute right-3.5 top-3.5 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white/90 backdrop-blur-md transition hover:bg-black/80 hover:text-white"
+          className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-2xl border border-white/20 bg-black/60 text-white backdrop-blur-md shadow-lg transition hover:bg-black/80 hover:scale-105 active:scale-95"
           title="Report stranger"
           aria-label="Report stranger"
         >
-          <Flag size={16} />
+          <Flag size={19} weight="bold" />
         </button>
       )}
 
       {/* Bottom-Right More Options Button */}
-      <div className="absolute bottom-3.5 right-3.5 z-10">
+      <div className="absolute bottom-4 right-4 z-10">
         <button
           type="button"
           onClick={() => setMenuOpen(!menuOpen)}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white/90 backdrop-blur-md transition hover:bg-black/80 hover:text-white"
+          className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/20 bg-black/60 text-white backdrop-blur-md shadow-lg transition hover:bg-black/80 hover:scale-105 active:scale-95"
           title="More options"
           aria-label="More options"
         >
-          <DotsThree size={20} weight="bold" />
+          <DotsThree size={24} weight="bold" />
         </button>
 
         {menuOpen && (

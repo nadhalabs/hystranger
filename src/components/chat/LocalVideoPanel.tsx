@@ -100,25 +100,25 @@ export function LocalVideoPanel({
         <button
           type="button"
           onClick={onOpenSettings}
-          className="absolute bottom-3.5 left-3.5 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white/90 backdrop-blur-md transition hover:bg-black/80 hover:text-white"
+          className="absolute bottom-4 left-4 z-10 flex h-11 w-11 items-center justify-center rounded-2xl border border-white/20 bg-black/60 text-white backdrop-blur-md shadow-lg transition hover:bg-black/80 hover:scale-105 active:scale-95"
           title="Device settings"
           aria-label="Device settings"
         >
-          <Gear size={16} weight="bold" />
+          <Gear size={19} weight="bold" />
         </button>
       )}
 
       <button
         type="button"
         onClick={toggleFullscreen}
-        className="absolute bottom-3.5 right-3.5 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white/90 backdrop-blur-md transition hover:bg-black/80 hover:text-white"
+        className="absolute bottom-4 right-4 z-10 flex h-11 w-11 items-center justify-center rounded-2xl border border-white/20 bg-black/60 text-white backdrop-blur-md shadow-lg transition hover:bg-black/80 hover:scale-105 active:scale-95"
         title="Toggle fullscreen"
         aria-label="Toggle fullscreen"
       >
         {fullscreen ? (
-          <ArrowsInSimple size={16} weight="bold" />
+          <ArrowsInSimple size={19} weight="bold" />
         ) : (
-          <ArrowsOutSimple size={16} weight="bold" />
+          <ArrowsOutSimple size={19} weight="bold" />
         )}
       </button>
     </div>
