@@ -2,12 +2,26 @@ import Link from "next/link";
 
 export function Logo() {
   return (
-    <Link href="/" className="group inline-flex items-center gap-2.5" aria-label="Nadha Relay home">
-      <span className="relative flex h-8 w-8 items-center justify-center rounded-[11px] bg-ink text-white shadow-sm transition-transform group-hover:-rotate-3">
-        <span className="absolute h-2.5 w-2.5 -translate-x-1 translate-y-0.5 rounded-full bg-accent" />
-        <span className="absolute h-2.5 w-2.5 translate-x-1 -translate-y-0.5 rounded-full border-2 border-white" />
+    <Link href="/" className="group inline-flex items-center gap-2.5" aria-label="hyStranger home">
+      <span className="relative flex h-7 w-7 items-center justify-center text-white transition-transform group-hover:scale-105">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-6 w-6"
+        >
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="white" stroke="white" />
+          <circle cx="8" cy="10" r="1.2" fill="#080808" stroke="none" />
+          <circle cx="12" cy="10" r="1.2" fill="#080808" stroke="none" />
+          <circle cx="16" cy="10" r="1.2" fill="#080808" stroke="none" />
+        </svg>
       </span>
-      <span className="text-[17px] font-extrabold tracking-[-0.035em] text-ink">Nadha Relay</span>
+      <span className="text-[19px] font-bold tracking-tight text-white">
+        hyStranger
+      </span>
     </Link>
   );
 }

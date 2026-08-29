@@ -19,13 +19,48 @@ export function ReportDialog({ open, onClose, onReport, onBlock }: Props) {
   const [reason, setReason] = useState<ReportReason | null>(null);
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-[60] flex items-end justify-center bg-ink/50 p-0 sm:items-center sm:p-5" onMouseDown={onClose}>
-      <section role="dialog" aria-modal="true" aria-labelledby="report-title" onMouseDown={(event) => event.stopPropagation()} className="w-full max-w-md rounded-t-[26px] bg-white p-6 shadow-2xl sm:rounded-[26px]">
-        <div className="flex items-center justify-between"><div className="flex items-center gap-2.5"><Flag size={20} weight="fill" className="text-rose-600" /><h2 id="report-title" className="text-lg font-black text-ink">Report this stranger</h2></div><button onClick={onClose} aria-label="Close report dialog" className="rounded-full p-2 text-muted hover:bg-canvas"><X size={18} /></button></div>
-        <p className="mt-2 text-xs leading-5 text-muted">Your video is not recorded. We save only pseudonymous match details and your selected reason.</p>
-        <div className="mt-4 grid gap-2">{reasons.map((item) => <button key={item.value} onClick={() => setReason(item.value)} className={`rounded-xl px-4 py-3 text-left text-sm font-semibold ring-1 transition ${reason === item.value ? "bg-rose-50 text-rose-800 ring-rose-300" : "bg-white text-ink ring-line hover:bg-canvas"}`}>{item.label}</button>)}</div>
-        <button disabled={!reason} onClick={() => reason && onReport(reason)} className="mt-4 h-12 w-full rounded-xl bg-rose-600 text-sm font-bold text-white hover:bg-rose-700 disabled:opacity-40">Submit report and leave</button>
-        <button onClick={onBlock} className="mt-2 h-11 w-full rounded-xl text-sm font-bold text-muted hover:bg-canvas hover:text-ink">Block without reporting</button>
+    <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/75 p-0 backdrop-blur-sm sm:items-center sm:p-5" onMouseDown={onClose}>
+      <section role="dialog" aria-modal="true" aria-labelledby="report-title" onMouseDown={(event) => event.stopPropagation()} className="w-full max-w-md rounded-t-[26px] border border-white/10 bg-[#0f0f0f] p-6 shadow-2xl sm:rounded-[26px]">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <Flag size={20} weight="fill" className="text-red-400" />
+            <h2 id="report-title" className="text-lg font-bold text-white">Report stranger</h2>
+          </div>
+          <button onClick={onClose} aria-label="Close report dialog" className="rounded-full p-2 text-zinc-400 hover:bg-white/10 hover:text-white transition">
+            <X size={18} />
+          </button>
+        </div>
+        <p className="mt-2 text-xs leading-5 text-zinc-400">
+          Video is not recorded. Only pseudonymous match metadata and your selected reason are submitted.
+        </p>
+        <div className="mt-4 grid gap-2">
+          {reasons.map((item) => (
+            <button
+              key={item.value}
+              onClick={() => setReason(item.value)}
+              className={`rounded-xl px-4 py-3 text-left text-sm font-semibold border transition ${
+                reason === item.value
+                  ? "bg-red-500/10 border-red-500/40 text-red-300"
+                  : "bg-[#151515] border-white/5 text-zinc-200 hover:bg-[#1a1a1a] hover:border-white/10"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+        <button
+          disabled={!reason}
+          onClick={() => reason && onReport(reason)}
+          className="mt-4 h-12 w-full rounded-xl bg-red-600 text-sm font-bold text-white transition hover:bg-red-700 disabled:opacity-30 disabled:cursor-not-allowed"
+        >
+          Submit report & leave
+        </button>
+        <button
+          onClick={onBlock}
+          className="mt-2 h-11 w-full rounded-xl text-sm font-medium text-zinc-400 hover:bg-white/5 hover:text-white transition"
+        >
+          Block without reporting
+        </button>
       </section>
     </div>
   );

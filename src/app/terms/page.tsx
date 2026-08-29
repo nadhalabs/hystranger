@@ -2,5 +2,24 @@ import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 
 export default function TermsPage() {
-  return <div className="flex min-h-screen flex-col"><Navbar /><main className="mx-auto w-full max-w-3xl flex-1 px-5 py-16 sm:px-8"><h1 className="text-4xl font-black tracking-[-0.04em]">Terms</h1><p className="mt-5 leading-8 text-muted">Nadha Relay is currently in development. Full community guidelines and terms will be published before public launch.</p></main><Footer /></div>;
+  return (
+    <div className="flex min-h-screen flex-col bg-[#080808] text-white">
+      <Navbar />
+      <main className="mx-auto w-full max-w-3xl flex-1 px-5 py-16 sm:px-8">
+        <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl">Terms of Service</h1>
+        <div className="mt-5 space-y-4 text-zinc-400 leading-8">
+          <p>
+            hyStranger is designed for respectful, consensual one-to-one video conversations between adults.
+          </p>
+          <ul className="list-disc pl-5 space-y-2">
+            <li>You must be 18 years of age or older to use hyStranger.</li>
+            <li>No nudity, sexual content, hate speech, or harassment is permitted.</li>
+            <li>Your camera must show you live.</li>
+            <li>Violators are subject to immediate and permanent bans.</li>
+          </ul>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
 }

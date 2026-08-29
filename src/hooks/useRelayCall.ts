@@ -197,14 +197,14 @@ export function useRelayCall(localStream: MediaStream | null) {
         socketRef.current = null;
         if (!intentionalCloseRef.current) {
           closePeer();
-          setError("Connection to Nadha Relay was lost. Check your network and try again.");
+          setError("Connection to hyStranger was lost. Check your network and try again.");
           setPhase("error");
         }
       };
       heartbeatRef.current = setInterval(() => send({ type: "ping" }), 15_000);
     } catch {
       socketRef.current = null;
-      setError("Nadha Relay couldn’t reach the signaling service. Is the backend running?");
+      setError("hyStranger couldn’t reach the signaling service. Is the backend running?");
       setPhase("error");
     }
   }, [closePeer, handleMessage, send]);

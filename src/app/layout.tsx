@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Nadha Relay — Meet someone new",
-  description: "A simple, safe place for spontaneous video and text conversations.",
+  title: "hyStranger — Meet someone new",
+  description: "A minimal, safe place for spontaneous video conversations with strangers.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

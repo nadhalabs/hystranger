@@ -3,7 +3,12 @@
 import { useEffect, useState } from "react";
 import { signalingUrls } from "@/lib/webrtc";
 
-export function OnlineIndicator() {
+type Props = {
+  variant?: "pill" | "text";
+  className?: string;
+};
+
+export function OnlineIndicator({ variant = "text", className = "" }: Props) {
   const [online, setOnline] = useState<number | null>(null);
   useEffect(() => {
     let active = true;
@@ -18,13 +23,28 @@ export function OnlineIndicator() {
     const timer = setInterval(load, 20_000);
     return () => { active = false; clearInterval(timer); };
   }, []);
+
+  const displayCount = online === null ? "..." : online;
+
+  if (variant === "pill") {
+    return (
+      <div className={`inline-flex items-center gap-2 rounded-full border border-white/10 bg-[#121212] px-3.5 py-1.5 text-xs font-semibold text-white/90 shadow-sm ${className}`} aria-label="People currently online">
+        <span className="relative flex h-2 w-2">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+        </span>
+        <span>{displayCount} online</span>
+      </div>
+    );
+  }
+
   return (
-    <div className="inline-flex items-center gap-2 text-sm font-medium text-muted" aria-label="People currently online">
+    <div className={`inline-flex items-center gap-2 text-sm font-medium text-zinc-400 ${className}`} aria-label="People currently online">
       <span className="relative flex h-2.5 w-2.5">
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-50" />
         <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
       </span>
-      {online === null ? "Live count unavailable" : `${online} ${online === 1 ? "person is" : "people are"} exploring now`}
+      {online === null ? "Live count unavailable" : `${online} ${online === 1 ? "person is" : "people are"} online now`}
     </div>
   );
 }

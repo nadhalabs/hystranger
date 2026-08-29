@@ -3,5 +3,11 @@ import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 
 export default function TextPage() {
-  return <div className="flex min-h-screen flex-col"><Navbar /><ComingSoon /><Footer /></div>;
+  return (
+    <div className="flex min-h-screen flex-col bg-[#080808] text-white">
+      <Navbar />
+      <ComingSoon />
+      <Footer />
+    </div>
+  );
 }
