@@ -34,16 +34,16 @@ export function ReportDialog({ open, onClose, onReport, onBlock }: Props) {
         aria-modal="true"
         aria-labelledby="report-title"
         onMouseDown={(event) => event.stopPropagation()}
-        className="w-full max-w-md rounded-t-[28px] border border-neutral-200/80 bg-white p-6 shadow-2xl transition-colors dark:border-white/10 dark:bg-[#141414] sm:rounded-[28px]"
+        className="w-full max-w-md rounded-t-[32px] border-2 border-neutral-200/90 bg-white p-6 shadow-2xl transition-colors dark:border-white/15 dark:bg-[#141414] sm:rounded-[32px] sm:p-7"
       >
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 text-red-600 dark:bg-red-500/15 dark:text-red-400">
-              <Flag size={18} weight="fill" />
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-100 text-red-600 dark:bg-red-500/20 dark:text-red-400">
+              <Flag size={22} weight="fill" />
             </div>
             <h2
               id="report-title"
-              className="text-lg font-bold text-neutral-900 dark:text-white"
+              className="text-xl font-black text-neutral-900 dark:text-white"
             >
               Report stranger
             </h2>
@@ -51,26 +51,26 @@ export function ReportDialog({ open, onClose, onReport, onBlock }: Props) {
           <button
             onClick={onClose}
             aria-label="Close report dialog"
-            className="rounded-full p-2 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-900 dark:text-zinc-400 dark:hover:bg-white/10 dark:hover:text-white transition"
+            className="flex h-10 w-10 items-center justify-center rounded-2xl bg-neutral-100 text-neutral-400 hover:bg-neutral-200 hover:text-neutral-900 dark:bg-white/10 dark:text-zinc-400 dark:hover:bg-white/20 dark:hover:text-white transition"
           >
-            <X size={18} />
+            <X size={20} weight="bold" />
           </button>
         </div>
 
-        <p className="mt-2 text-xs leading-5 text-neutral-500 dark:text-zinc-400">
+        <p className="mt-2.5 text-xs leading-5 font-medium text-neutral-500 dark:text-zinc-400">
           Video is not recorded. Only pseudonymous match metadata and your selected reason are submitted.
         </p>
 
-        <div className="mt-4 grid gap-2">
+        <div className="mt-4 grid gap-2.5">
           {reasons.map((item) => (
             <button
               key={item.value}
               type="button"
               onClick={() => setReason(item.value)}
-              className={`rounded-xl px-4 py-3 text-left text-sm font-semibold border transition ${
+              className={`rounded-2xl px-5 py-3.5 text-left text-sm font-bold border-2 transition active:scale-[0.99] ${
                 reason === item.value
-                  ? "bg-red-50 border-red-300 text-red-700 dark:bg-red-500/15 dark:border-red-500/40 dark:text-red-300"
-                  : "bg-neutral-50 border-neutral-200/70 text-neutral-800 hover:bg-neutral-100 dark:bg-[#1c1c1c] dark:border-white/5 dark:text-zinc-200 dark:hover:bg-[#222]"
+                  ? "bg-red-50 border-red-400 text-red-700 dark:bg-red-500/20 dark:border-red-500/50 dark:text-red-300 shadow-sm"
+                  : "bg-neutral-50 border-neutral-200/90 text-neutral-800 hover:bg-neutral-100 hover:border-neutral-300 dark:bg-[#1c1c1c] dark:border-white/10 dark:text-zinc-200 dark:hover:bg-[#222]"
               }`}
             >
               {item.label}
@@ -82,7 +82,7 @@ export function ReportDialog({ open, onClose, onReport, onBlock }: Props) {
           disabled={!reason}
           type="button"
           onClick={() => reason && onReport(reason)}
-          className="mt-4 h-12 w-full rounded-xl bg-red-600 text-sm font-bold text-white transition hover:bg-red-700 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="mt-5 flex h-16 w-full items-center justify-center rounded-2xl bg-red-600 text-base font-black text-white shadow-2xl transition hover:bg-red-700 active:scale-[0.99] disabled:opacity-30 disabled:cursor-not-allowed"
         >
           Submit report & leave
         </button>
@@ -90,7 +90,7 @@ export function ReportDialog({ open, onClose, onReport, onBlock }: Props) {
         <button
           type="button"
           onClick={onBlock}
-          className="mt-2 h-11 w-full rounded-xl text-sm font-medium text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 dark:text-zinc-400 dark:hover:bg-white/5 dark:hover:text-white transition"
+          className="mt-2.5 flex h-13 w-full items-center justify-center rounded-2xl text-sm font-bold text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 dark:text-zinc-400 dark:hover:bg-white/5 dark:hover:text-white transition"
         >
           Block without reporting
         </button>

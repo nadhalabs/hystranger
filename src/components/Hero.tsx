@@ -45,18 +45,18 @@ export function Hero() {
 
         <div className="mt-8 w-full max-w-[510px] sm:mt-10">
           <InterestsInput value={interests} onChange={setInterests} />
-          <div className="mt-4 grid gap-3 sm:grid-cols-[1.35fr_1fr]">
+          <div className="mt-4 grid gap-3.5 sm:grid-cols-[1.35fr_1fr]">
             <button
               onClick={() => navigate("/video")}
-              className="flex h-15 items-center justify-center gap-3 rounded-2xl bg-neutral-900 px-7 text-[16px] font-black text-white shadow-xl transition hover:-translate-y-0.5 hover:bg-neutral-800 active:scale-[0.99] focus:outline-none focus:ring-4 focus:ring-neutral-400/20 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 dark:focus:ring-white/20"
+              className="flex h-16 items-center justify-center gap-3 rounded-2xl bg-neutral-950 px-8 text-[17px] font-black text-white shadow-2xl transition hover:-translate-y-0.5 hover:bg-neutral-800 active:scale-[0.99] focus:outline-none focus:ring-4 focus:ring-neutral-400/20 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 dark:focus:ring-white/20"
             >
-              <VideoCamera size={23} weight="fill" aria-hidden /> Video chat
+              <VideoCamera size={24} weight="fill" aria-hidden /> Video chat
             </button>
             <button
               onClick={() => navigate("/text")}
-              className="flex h-15 items-center justify-center gap-2.5 rounded-2xl border border-neutral-200/80 bg-white px-6 text-[16px] font-black text-neutral-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-neutral-50 hover:border-neutral-300 focus:outline-none focus:ring-4 focus:ring-neutral-200 dark:border-white/10 dark:bg-[#121212] dark:text-white dark:hover:bg-[#181818] dark:hover:border-white/20 dark:focus:ring-white/10"
+              className="flex h-16 items-center justify-center gap-3 rounded-2xl border-2 border-neutral-200/90 bg-white px-7 text-[17px] font-black text-neutral-950 shadow-sm transition hover:-translate-y-0.5 hover:bg-neutral-50 hover:border-neutral-300 focus:outline-none focus:ring-4 focus:ring-neutral-200 dark:border-white/15 dark:bg-[#141414] dark:text-white dark:hover:bg-[#1c1c1c] dark:hover:border-white/25 dark:focus:ring-white/10"
             >
-              <ChatCircleDots size={23} weight="bold" aria-hidden /> Text chat
+              <ChatCircleDots size={24} weight="bold" aria-hidden /> Text chat
             </button>
           </div>
         </div>

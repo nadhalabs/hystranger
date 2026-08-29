@@ -96,11 +96,11 @@ export function RelayExperience({ media, call }: Props) {
           <button
             type="button"
             onClick={() => setSafetyInfoOpen(true)}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200/80 bg-neutral-100/90 text-neutral-700 transition hover:border-neutral-300 hover:text-neutral-900 dark:border-white/10 dark:bg-[#121212] dark:text-zinc-300 dark:hover:border-white/20 dark:hover:text-white"
+            className="flex h-11 w-11 items-center justify-center rounded-2xl border-2 border-neutral-200/90 bg-neutral-100/90 text-neutral-800 shadow-sm transition hover:border-neutral-400 hover:text-neutral-950 dark:border-white/15 dark:bg-[#141414] dark:text-zinc-200 dark:hover:border-white/30 dark:hover:text-white"
             title="Safety guidelines"
             aria-label="Safety guidelines"
           >
-            <ShieldCheck size={17} weight="bold" />
+            <ShieldCheck size={20} weight="bold" />
           </button>
         </div>
       </header>

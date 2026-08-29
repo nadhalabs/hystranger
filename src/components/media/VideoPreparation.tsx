@@ -62,14 +62,14 @@ export function VideoPreparation() {
                 type="button"
                 onClick={() => void media.requestMedia()}
                 disabled={media.loading}
-                className="mt-4 flex h-15 w-full items-center justify-center gap-3 rounded-2xl bg-neutral-900 px-6 text-base font-black text-white shadow-xl transition hover:bg-neutral-800 active:scale-[0.99] disabled:cursor-wait disabled:opacity-60 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200"
+                className="mt-4 flex h-16 w-full items-center justify-center gap-3 rounded-2xl bg-neutral-950 px-8 text-base font-black text-white shadow-2xl transition hover:bg-neutral-800 active:scale-[0.99] disabled:cursor-wait disabled:opacity-60 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200"
               >
-                <VideoCamera size={22} weight="fill" />{" "}
+                <VideoCamera size={24} weight="fill" />{" "}
                 {media.issue ? "Try again" : "Allow camera & microphone"}
               </button>
             ) : (
-              <div className="mt-4 space-y-3">
-                <div className="grid gap-2.5 sm:grid-cols-2">
+              <div className="mt-4 space-y-3.5">
+                <div className="grid gap-3 sm:grid-cols-2">
                   <DeviceSelect
                     label="Camera"
                     devices={media.cameras}
@@ -90,10 +90,10 @@ export function VideoPreparation() {
                   <button
                     type="button"
                     onClick={() => void call.start()}
-                    className="flex h-15 w-full items-center justify-center gap-2.5 rounded-2xl bg-neutral-900 px-6 text-base font-black text-white shadow-xl transition hover:bg-neutral-800 active:scale-[0.99] focus:outline-none focus:ring-4 focus:ring-neutral-300 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 dark:focus:ring-white/20"
+                    className="flex h-16 w-full items-center justify-center gap-3 rounded-2xl bg-neutral-950 px-8 text-lg font-black text-white shadow-2xl transition hover:bg-neutral-800 active:scale-[0.99] focus:outline-none focus:ring-4 focus:ring-neutral-400/20 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 dark:focus:ring-white/20"
                   >
                     <span>Continue to Match</span>
-                    <span aria-hidden="true" className="text-lg">→</span>
+                    <span aria-hidden="true" className="text-xl font-bold">→</span>
                   </button>
                 )}
               </div>

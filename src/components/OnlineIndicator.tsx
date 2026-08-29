@@ -38,12 +38,12 @@ export function OnlineIndicator({ variant = "text", className = "" }: Props) {
   if (variant === "pill") {
     return (
       <div
-        className={`inline-flex items-center gap-2 rounded-full border border-neutral-200/80 bg-white px-3.5 py-1.5 text-xs font-semibold text-neutral-800 shadow-sm transition-colors dark:border-white/10 dark:bg-[#121212] dark:text-zinc-200 ${className}`}
+        className={`inline-flex h-11 items-center gap-2.5 rounded-full border-2 border-neutral-200/90 bg-white px-4 text-xs font-black text-neutral-900 shadow-sm transition-colors dark:border-white/15 dark:bg-[#141414] dark:text-zinc-200 ${className}`}
         aria-label="Users currently online"
       >
-        <span className="relative flex h-2 w-2">
+        <span className="relative flex h-2.5 w-2.5">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
         </span>
         <span>{displayCount} online</span>
       </div>
@@ -52,7 +52,7 @@ export function OnlineIndicator({ variant = "text", className = "" }: Props) {
 
   return (
     <div
-      className={`inline-flex items-center gap-2 text-sm font-medium text-neutral-500 dark:text-zinc-400 ${className}`}
+      className={`inline-flex items-center gap-2.5 text-sm font-bold text-neutral-500 dark:text-zinc-400 ${className}`}
       aria-label="Users currently online"
     >
       <span className="relative flex h-2.5 w-2.5">
