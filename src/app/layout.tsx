@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   description: "A minimal, safe place for spontaneous video conversations with strangers.",
 };
 
+import { NetworkStatus } from "@/components/NetworkStatus";
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -25,7 +27,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           }}
         />
       </head>
-      <body className="min-h-screen transition-colors duration-200">{children}</body>
+      <body className="min-h-screen transition-colors duration-200">
+        <NetworkStatus />
+        {children}
+      </body>
     </html>
   );
 }
