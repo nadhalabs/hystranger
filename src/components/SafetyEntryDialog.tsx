@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ShieldCheck, X } from "@phosphor-icons/react";
+import { ShieldCheck, X } from "@phosphor-icons/react/ssr";
 
 type Props = { open: boolean; onClose: () => void; onAccept: () => void };
 

@@ -7,13 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:landing-bundle": "node tests/landing-bundle.mjs"
   },
   "dependencies": {
-    "@phosphor-icons/react": "^2.1.10",
-    "next": "^15.5.2",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "@phosphor-icons/react": "2.1.10",
+    "next": "15.5.24",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",

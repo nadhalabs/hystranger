@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChatCircleDots, VideoCamera } from "@phosphor-icons/react";
+import { ChatCircleDots, VideoCamera } from "@phosphor-icons/react/ssr";
 import { InterestsInput } from "./InterestsInput";
 import { OnlineIndicator } from "./OnlineIndicator";
 import { SafetyNotice } from "./SafetyNotice";
