@@ -177,19 +177,19 @@ export function RelayExperience({ media, call }: Props) {
       </div>
 
       {/* ================= ELEVATED MOBILE BOTTOM ACTION BAR ================= */}
-      <div className="fixed bottom-3.5 inset-x-3 sm:inset-x-6 z-30 flex items-center gap-2 rounded-3xl border border-neutral-200/90 bg-white/95 p-2 shadow-2xl backdrop-blur-xl dark:border-white/15 dark:bg-[#121212]/95 lg:hidden">
-        {/* Prominent Next Button */}
+      <div className="fixed bottom-4 inset-x-3 sm:inset-x-6 z-30 flex items-center gap-2.5 rounded-3xl border border-neutral-200/90 bg-white/95 p-2.5 shadow-2xl backdrop-blur-xl dark:border-white/15 dark:bg-[#121212]/95 lg:hidden">
+        {/* Prominent Enlarge Next Button */}
         <button
           type="button"
           onClick={call.findAnother}
           disabled={searching || peerConnecting}
-          className="flex h-13 flex-1 items-center justify-between rounded-2xl bg-neutral-900 px-4 text-white shadow-md transition hover:bg-neutral-800 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200"
+          className="flex h-15 flex-1 items-center justify-between rounded-2xl bg-neutral-900 px-5 text-white shadow-md transition hover:bg-neutral-800 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200"
         >
           <div className="flex flex-col items-start text-left">
-            <span className="flex items-center gap-1.5 text-sm font-extrabold leading-tight">
-              Next <ArrowRight size={14} weight="bold" />
+            <span className="flex items-center gap-1.5 text-base font-black leading-tight">
+              Next <ArrowRight size={16} weight="bold" />
             </span>
-            <span className="text-[10px] font-medium text-neutral-300 dark:text-neutral-600">
+            <span className="text-[11px] font-semibold text-neutral-300 dark:text-neutral-600">
               Find new match
             </span>
           </div>
@@ -199,11 +199,11 @@ export function RelayExperience({ media, call }: Props) {
         <button
           type="button"
           onClick={() => setChatOpen(true)}
-          className="relative flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl border border-neutral-200/80 bg-neutral-100 text-neutral-900 shadow-sm transition active:scale-95 dark:border-white/10 dark:bg-[#181818] dark:text-white"
+          className="relative flex h-15 w-15 shrink-0 items-center justify-center rounded-2xl border border-neutral-200/80 bg-neutral-100 text-neutral-900 shadow-sm transition active:scale-95 dark:border-white/10 dark:bg-[#181818] dark:text-white"
           aria-label="Open chat"
           title="Open chat"
         >
-          <ChatCircleDots size={22} weight="bold" />
+          <ChatCircleDots size={24} weight="bold" />
           {call.messages.length > 0 && (
             <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-neutral-900 text-[10px] font-extrabold text-white shadow-sm dark:bg-white dark:text-black">
               {call.messages.length}
@@ -215,22 +215,22 @@ export function RelayExperience({ media, call }: Props) {
         <button
           type="button"
           onClick={() => setReportOpen(true)}
-          className="flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl border border-neutral-200/80 bg-neutral-100 text-neutral-700 shadow-sm transition active:scale-95 dark:border-white/10 dark:bg-[#181818] dark:text-zinc-300"
+          className="flex h-15 w-15 shrink-0 items-center justify-center rounded-2xl border border-neutral-200/80 bg-neutral-100 text-neutral-700 shadow-sm transition active:scale-95 dark:border-white/10 dark:bg-[#181818] dark:text-zinc-300"
           title="Report stranger"
           aria-label="Report stranger"
         >
-          <Flag size={18} weight="bold" />
+          <Flag size={20} weight="bold" />
         </button>
 
         {/* Leave / Disconnect */}
         <button
           type="button"
           onClick={stop}
-          className="flex h-13 w-12 shrink-0 items-center justify-center rounded-2xl border border-red-200 bg-red-50 text-red-600 shadow-sm transition hover:bg-red-100 active:scale-95 dark:border-red-500/30 dark:bg-red-500/15 dark:text-red-400"
+          className="flex h-15 w-13 shrink-0 items-center justify-center rounded-2xl border border-red-200 bg-red-50 text-red-600 shadow-sm transition hover:bg-red-100 active:scale-95 dark:border-red-500/30 dark:bg-red-500/15 dark:text-red-400"
           title="Leave chat"
           aria-label="Leave chat"
         >
-          <PhoneDisconnect size={18} weight="bold" />
+          <PhoneDisconnect size={20} weight="bold" />
         </button>
       </div>
 
