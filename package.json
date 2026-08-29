@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test:landing-bundle": "node tests/landing-bundle.mjs"
+    "test:landing-bundle": "node tests/landing-bundle.mjs",
+    "test:webrtc-compat": "node tests/webrtc-compat.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "2.1.10",

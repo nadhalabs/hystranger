@@ -15,3 +15,17 @@ export function signalingUrls() {
   const ws = http.replace(/^http/, "ws");
   return { session: `${http}/api/sessions`, ice: `${http}/api/ice-config`, stats: `${http}/api/stats`, socket: `${ws}/ws` };
 }
+
+/**
+ * Safari versions in active use do not all expose RTCIceCandidate#toJSON.
+ * Signaling only needs the candidate-init fields, so do not invoke that
+ * optional browser method from the realtime event callback.
+ */
+export function serializeIceCandidate(candidate: RTCIceCandidate): RTCIceCandidateInit {
+  return {
+    candidate: candidate.candidate,
+    sdpMid: candidate.sdpMid,
+    sdpMLineIndex: candidate.sdpMLineIndex,
+    usernameFragment: candidate.usernameFragment ?? undefined,
+  };
+}

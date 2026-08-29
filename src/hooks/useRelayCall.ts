@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { getFallbackIceServers, signalingUrls } from "@/lib/webrtc";
+import { getFallbackIceServers, serializeIceCandidate, signalingUrls } from "@/lib/webrtc";
 import type { CallPhase, ChatItem, ReportReason, ServerMessage } from "@/types/signaling";
 
 const SIGNALING_TIMEOUT = 18_000;
@@ -58,9 +58,22 @@ export function useRelayCall(localStream: MediaStream | null) {
     const peer = new RTCPeerConnection({ iceServers: iceServersRef.current });
     peerRef.current = peer;
     localStreamRef.current?.getTracks().forEach((track) => peer.addTrack(track, localStreamRef.current!));
-    peer.ontrack = (event) => setRemoteStream(event.streams[0] || new MediaStream([event.track]));
+    peer.ontrack = (event) => {
+      const stream = event.streams[0];
+      if (stream) {
+        setRemoteStream(stream);
+        return;
+      }
+
+      // Some Safari/WebKit builds emit track events without a streams entry.
+      const fallbackStream = new MediaStream();
+      fallbackStream.addTrack(event.track);
+      setRemoteStream(fallbackStream);
+    };
     peer.onicecandidate = (event) => {
-      if (event.candidate) send({ type: "signal", signal_type: "ice", payload: event.candidate.toJSON() });
+      if (event.candidate) {
+        send({ type: "signal", signal_type: "ice", payload: serializeIceCandidate(event.candidate) });
+      }
     };
     peer.onconnectionstatechange = () => {
       if (peer.connectionState === "connected") {
