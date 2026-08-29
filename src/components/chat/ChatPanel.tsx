@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { ArrowUp, ChatCircleDots, X } from "@phosphor-icons/react";
+import { ArrowUp, ChatCircleDots, X } from "@phosphor-icons/react/ssr";
 import type { ChatItem } from "@/types/signaling";
 
 type Props = { messages: ChatItem[]; onSend: (text: string) => boolean; mobile?: boolean; onClose?: () => void };

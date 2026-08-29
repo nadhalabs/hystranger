@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { CameraSlash, SpinnerGap } from "@phosphor-icons/react";
+import { CameraSlash, SpinnerGap } from "@phosphor-icons/react/ssr";
 
 type Props = { stream: MediaStream | null; cameraEnabled: boolean; loading: boolean };
 

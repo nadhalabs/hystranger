@@ -1,4 +1,4 @@
-import { Sparkle } from "@phosphor-icons/react/dist/ssr";
+import { Sparkle } from "@phosphor-icons/react/ssr";
 
 type Props = { value: string; onChange: (value: string) => void };
 

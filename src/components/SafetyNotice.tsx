@@ -1,4 +1,4 @@
-import { ShieldCheck } from "@phosphor-icons/react/dist/ssr";
+import { ShieldCheck } from "@phosphor-icons/react/ssr";
 
 export function SafetyNotice() {
   return (

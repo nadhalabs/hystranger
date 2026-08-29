@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, ChatCircleDots } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft, ChatCircleDots } from "@phosphor-icons/react/ssr";
 
 export function ComingSoon() {
   return (

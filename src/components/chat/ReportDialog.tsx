@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Flag, X } from "@phosphor-icons/react";
+import { Flag, X } from "@phosphor-icons/react/ssr";
 import type { ReportReason } from "@/types/signaling";
 
 const reasons: Array<{ value: ReportReason; label: string }> = [

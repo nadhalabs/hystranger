@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowClockwise, Camera, CameraSlash, ChatCircleDots, Flag, Microphone, MicrophoneSlash, PhoneDisconnect, SpinnerGap, UsersThree, X } from "@phosphor-icons/react";
+import { ArrowClockwise, Camera, CameraSlash, ChatCircleDots, Flag, Microphone, MicrophoneSlash, PhoneDisconnect, SpinnerGap, UsersThree, X } from "@phosphor-icons/react/ssr";
 import type { useMediaSetup } from "@/hooks/useMediaSetup";
 import type { useRelayCall } from "@/hooks/useRelayCall";
 import { ChatPanel } from "./ChatPanel";

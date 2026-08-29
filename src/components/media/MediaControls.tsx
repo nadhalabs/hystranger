@@ -1,6 +1,6 @@
 "use client";
 
-import { Camera, CameraSlash, Microphone, MicrophoneSlash } from "@phosphor-icons/react";
+import { Camera, CameraSlash, Microphone, MicrophoneSlash } from "@phosphor-icons/react/ssr";
 
 type Props = {
   cameraEnabled: boolean; microphoneEnabled: boolean; disabled: boolean;

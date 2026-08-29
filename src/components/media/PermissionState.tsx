@@ -1,4 +1,4 @@
-import { Info, WarningCircle } from "@phosphor-icons/react/dist/ssr";
+import { Info, WarningCircle } from "@phosphor-icons/react/ssr";
 import type { MediaIssue } from "@/types/media";
 
 export function PermissionState({ issue }: { issue: MediaIssue | null }) {

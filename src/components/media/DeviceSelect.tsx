@@ -1,4 +1,4 @@
-import { CaretDown } from "@phosphor-icons/react/dist/ssr";
+import { CaretDown } from "@phosphor-icons/react/ssr";
 
 type Props = { label: string; devices: MediaDeviceInfo[]; value: string; onChange: (value: string) => void; disabled?: boolean };
 

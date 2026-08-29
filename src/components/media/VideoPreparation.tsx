@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, Check, LockKey, VideoCamera } from "@phosphor-icons/react";
+import { ArrowLeft, Check, LockKey, VideoCamera } from "@phosphor-icons/react/ssr";
 import { useMediaSetup } from "@/hooks/useMediaSetup";
 import { useRelayCall } from "@/hooks/useRelayCall";
 import { RelayExperience } from "@/components/chat/RelayExperience";
