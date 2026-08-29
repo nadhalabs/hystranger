@@ -9,7 +9,9 @@ type Props = { messages: ChatItem[]; onSend: (text: string) => boolean; mobile?:
 export function ChatPanel({ messages, onSend, mobile = false, onClose }: Props) {
   const [text, setText] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
-  useEffect(() => endRef.current?.scrollIntoView({ behavior: "smooth" }), [messages]);
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
