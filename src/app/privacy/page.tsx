@@ -3,11 +3,11 @@ import { Navbar } from "@/components/Navbar";
 
 export default function PrivacyPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-[#080808] text-white">
+    <div className="flex min-h-screen flex-col bg-[#f8f9fa] text-neutral-900 transition-colors dark:bg-[#080808] dark:text-white">
       <Navbar />
       <main className="mx-auto w-full max-w-3xl flex-1 px-5 py-16 sm:px-8">
-        <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl">Privacy</h1>
-        <p className="mt-5 leading-8 text-zinc-400">
+        <h1 className="text-4xl font-black tracking-tight text-neutral-900 sm:text-5xl dark:text-white">Privacy</h1>
+        <p className="mt-5 leading-8 text-neutral-600 dark:text-zinc-400">
           During media setup, your camera preview remains local to your browser. Video streams are transmitted peer-to-peer and are never recorded.
         </p>
       </main>

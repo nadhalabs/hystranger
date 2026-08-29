@@ -3,11 +3,11 @@ import { Navbar } from "@/components/Navbar";
 
 export default function TermsPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-[#080808] text-white">
+    <div className="flex min-h-screen flex-col bg-[#f8f9fa] text-neutral-900 transition-colors dark:bg-[#080808] dark:text-white">
       <Navbar />
       <main className="mx-auto w-full max-w-3xl flex-1 px-5 py-16 sm:px-8">
-        <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl">Terms of Service</h1>
-        <div className="mt-5 space-y-4 text-zinc-400 leading-8">
+        <h1 className="text-4xl font-black tracking-tight text-neutral-900 sm:text-5xl dark:text-white">Terms of Service</h1>
+        <div className="mt-5 space-y-4 text-neutral-600 leading-8 dark:text-zinc-400">
           <p>
             hyStranger is designed for respectful, consensual one-to-one video conversations between adults.
           </p>

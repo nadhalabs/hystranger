@@ -13,15 +13,34 @@ export function CameraPreview({ stream, cameraEnabled, loading }: Props) {
   }, [stream]);
 
   return (
-    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[24px] border border-white/10 bg-[#0c0c0c] shadow-soft sm:aspect-video lg:aspect-[4/3]">
-      <video ref={videoRef} autoPlay muted playsInline className="h-full w-full -scale-x-100 object-cover" aria-label="Your camera preview" />
+    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[24px] border border-neutral-200/80 bg-black shadow-sm sm:aspect-video lg:aspect-[4/3] dark:border-white/10">
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        playsInline
+        className="h-full w-full -scale-x-100 object-cover"
+        aria-label="Your camera preview"
+      />
       {(!stream || !cameraEnabled || loading) && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#0c0c0c] text-white">
-          {loading ? <SpinnerGap size={34} className="animate-spin text-white" /> : <CameraSlash size={35} className="text-zinc-500" weight="duotone" />}
-          <span className="text-sm font-medium text-zinc-400">{loading ? "Starting your devices…" : cameraEnabled ? "Camera preview will appear here" : "Camera is off"}</span>
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black text-white">
+          {loading ? (
+            <SpinnerGap size={34} className="animate-spin text-white" />
+          ) : (
+            <CameraSlash size={35} className="text-neutral-400" weight="duotone" />
+          )}
+          <span className="text-sm font-medium text-neutral-300">
+            {loading
+              ? "Starting your devices…"
+              : cameraEnabled
+              ? "Camera preview will appear here"
+              : "Camera is off"}
+          </span>
         </div>
       )}
-      <div className="absolute left-4 top-4 rounded-full bg-black/60 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm">You</div>
+      <div className="absolute left-4 top-4 rounded-full bg-black/60 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm">
+        You
+      </div>
     </div>
   );
 }

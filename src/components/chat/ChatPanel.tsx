@@ -1,31 +1,47 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { PaperPlaneRight, X } from "@phosphor-icons/react/ssr";
+import {
+  ArrowRight,
+  ChatCircleDots,
+  DotsThree,
+  Flag,
+  PaperPlaneRight,
+  PhoneDisconnect,
+  Smiley,
+  X,
+} from "@phosphor-icons/react/ssr";
 import type { ChatItem } from "@/types/signaling";
 
 type Props = {
   messages: ChatItem[];
   onSend: (text: string) => boolean;
   onNext?: () => void;
+  onReport?: () => void;
+  onStop?: () => void;
   nextDisabled?: boolean;
   connected?: boolean;
   searching?: boolean;
   mobile?: boolean;
   onClose?: () => void;
+  className?: string;
 };
 
 export function ChatPanel({
   messages,
   onSend,
   onNext,
+  onReport,
+  onStop,
   nextDisabled = false,
   connected = false,
   searching = false,
   mobile = false,
   onClose,
+  className = "",
 }: Props) {
   const [text, setText] = useState("");
+  const [moreMenuOpen, setMoreMenuOpen] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -41,43 +57,69 @@ export function ChatPanel({
     }
   };
 
+  const insertEmoji = (emoji: string) => {
+    setText((prev) => prev + emoji);
+    inputRef.current?.focus();
+  };
+
   return (
     <section
-      className={`flex min-h-0 flex-1 flex-col ${
+      className={`flex min-h-0 flex-1 flex-col rounded-2xl border border-neutral-200/80 bg-white p-4 shadow-sm transition-colors dark:border-white/10 dark:bg-[#121212] sm:rounded-3xl sm:p-5 ${
         mobile
-          ? "h-[80vh] rounded-t-[24px] border-t border-white/10 bg-[#0f0f0f] p-4 shadow-2xl"
+          ? "h-[85vh] rounded-t-[32px] border-t border-neutral-200/80 shadow-2xl dark:border-white/15 dark:bg-[#121212]"
           : "h-full"
-      }`}
+      } ${className}`}
       aria-label="Text chat"
     >
+      {/* Mobile Drag Indicator */}
       {mobile && (
-        <div className="mb-3 flex items-center justify-between border-b border-white/10 pb-3">
-          <span className="text-sm font-bold text-white">Chat</span>
-          {onClose && (
-            <button
-              onClick={onClose}
-              className="rounded-full p-1.5 text-zinc-400 hover:bg-white/10 hover:text-white"
-              aria-label="Close chat"
-            >
-              <X size={18} />
-            </button>
+        <div className="mx-auto mb-2.5 h-1.5 w-12 shrink-0 rounded-full bg-neutral-300 dark:bg-neutral-700" />
+      )}
+
+      {/* Header */}
+      <div className="mb-3 flex shrink-0 items-center justify-between">
+        <div className="flex items-center gap-2">
+          <h2 className="text-sm font-extrabold text-neutral-900 dark:text-white">
+            Chat
+          </h2>
+          {messages.length > 0 && (
+            <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-bold text-neutral-600 dark:bg-white/10 dark:text-zinc-300">
+              {messages.length}
+            </span>
           )}
         </div>
-      )}
+
+        {mobile && onClose && (
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex h-8 w-8 items-center justify-center rounded-full text-neutral-400 hover:bg-neutral-100 hover:text-neutral-900 dark:text-zinc-400 dark:hover:bg-white/10 dark:hover:text-white transition"
+            aria-label="Close chat"
+          >
+            <X size={18} weight="bold" />
+          </button>
+        )}
+      </div>
 
       {/* Messages Scroll Area */}
       <div
-        className="flex min-h-0 flex-1 flex-col gap-2.5 overflow-y-auto rounded-2xl border border-white/10 bg-[#0c0c0c] p-4"
+        className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto rounded-2xl bg-neutral-50/60 p-3 transition-colors dark:bg-[#0c0c0c] sm:p-4"
         aria-live="polite"
       >
         {messages.length === 0 ? (
-          <div className="my-auto text-center px-4">
-            <p className="text-xs font-medium text-zinc-500">
+          <div className="my-auto flex flex-col items-center justify-center px-4 py-8 text-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-neutral-800 shadow-sm dark:bg-white/5 dark:text-zinc-300">
+              <ChatCircleDots size={26} weight="duotone" />
+            </div>
+            <p className="mt-3 text-base font-bold text-neutral-900 dark:text-white">
+              Say hello!
+            </p>
+            <p className="mt-1 max-w-xs text-xs text-neutral-500 dark:text-zinc-400">
               {connected
-                ? "Say hello! Messages disappear when the call ends."
+                ? "Start a conversation with your match."
                 : searching
-                ? "Searching for a stranger..."
-                : "Messages will appear here once connected."}
+                ? "Searching for a conversation partner..."
+                : "Say something friendly once connected."}
             </p>
           </div>
         ) : (
@@ -89,16 +131,16 @@ export function ChatPanel({
                 className={`max-w-[85%] ${isYou ? "ml-auto" : "mr-auto"}`}
               >
                 <div
-                  className={`rounded-2xl px-4 py-2.5 text-sm leading-5 break-words ${
+                  className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed break-words shadow-sm ${
                     isYou
-                      ? "rounded-br-sm bg-white text-[#080808] font-medium"
-                      : "rounded-bl-sm bg-[#181818] text-zinc-100 border border-white/5"
+                      ? "rounded-br-sm bg-neutral-900 text-white dark:bg-white dark:text-neutral-950 font-medium"
+                      : "rounded-bl-sm border border-neutral-200/70 bg-white text-neutral-900 dark:border-white/5 dark:bg-[#1c1c1c] dark:text-neutral-100"
                   }`}
                 >
                   {message.text}
                 </div>
                 <p
-                  className={`mt-1 text-[10px] text-zinc-500 ${
+                  className={`mt-1 text-[10px] text-neutral-400 dark:text-zinc-500 ${
                     isYou ? "text-right" : "text-left"
                   }`}
                 >
@@ -114,26 +156,32 @@ export function ChatPanel({
         <div ref={endRef} />
       </div>
 
-      {/* Bottom Controls: Next Button + Message Input */}
-      <div className="mt-3 flex items-stretch gap-3">
-        {onNext && (
+      {/* Persistent Action Bar */}
+      <div className="relative mt-3 flex items-center gap-2 sm:gap-2.5">
+        {/* Large Prominent Next Button (Desktop only or optional on mobile) */}
+        {!mobile && onNext && (
           <button
             type="button"
             onClick={onNext}
             disabled={nextDisabled}
-            className="flex h-14 min-w-[96px] flex-col items-center justify-center rounded-xl bg-white px-5 text-center font-bold text-black transition hover:bg-zinc-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
-            title="Find another person (Esc)"
+            className="flex h-13 min-w-[108px] shrink-0 items-center justify-center gap-2 rounded-2xl bg-neutral-900 px-4 text-white shadow-sm transition hover:bg-neutral-800 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200"
+            title="Next match (Esc)"
           >
-            <span className="text-sm font-extrabold leading-tight">Next</span>
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-600">
-              Esc
-            </span>
+            <div className="flex flex-col items-start text-left">
+              <span className="flex items-center gap-1 text-sm font-extrabold leading-tight">
+                Next <ArrowRight size={14} weight="bold" />
+              </span>
+              <span className="text-[10px] font-medium text-neutral-300 dark:text-neutral-600">
+                Find new match
+              </span>
+            </div>
           </button>
         )}
 
+        {/* Message Input with Emoji Button & Send Button */}
         <form
           onSubmit={submit}
-          className="flex h-14 flex-1 items-center rounded-xl border border-white/10 bg-[#0c0c0c] px-4 transition focus-within:border-white/30"
+          className="flex h-13 flex-1 items-center gap-1.5 rounded-2xl border border-neutral-200/80 bg-neutral-50 px-3 transition focus-within:border-neutral-400 dark:border-white/10 dark:bg-[#161616] dark:focus-within:border-white/30"
         >
           <input
             ref={inputRef}
@@ -143,19 +191,90 @@ export function ChatPanel({
             disabled={!connected}
             onChange={(e) => setText(e.target.value)}
             placeholder={
-              connected ? "Type a message…" : "Waiting for connection…"
+              connected ? "Type a message..." : "Waiting for match..."
             }
-            className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-zinc-500 disabled:cursor-not-allowed disabled:placeholder:text-zinc-600"
+            className="min-w-0 flex-1 bg-transparent text-sm text-neutral-900 outline-none placeholder:text-neutral-400 disabled:cursor-not-allowed disabled:placeholder:text-neutral-500 dark:text-white dark:placeholder:text-zinc-500"
           />
+
+          <button
+            type="button"
+            disabled={!connected}
+            onClick={() => insertEmoji(" 👋")}
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-neutral-400 transition hover:text-neutral-800 disabled:opacity-30 dark:text-zinc-500 dark:hover:text-white"
+            title="Wave hello"
+            aria-label="Wave hello"
+          >
+            <Smiley size={18} />
+          </button>
+
           <button
             type="submit"
             disabled={!connected || !text.trim()}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-zinc-400 transition hover:text-white disabled:cursor-not-allowed disabled:opacity-25"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-neutral-900 text-white transition hover:bg-neutral-800 active:scale-95 disabled:cursor-not-allowed disabled:opacity-25 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200"
             aria-label="Send message"
           >
-            <PaperPlaneRight size={18} weight="bold" />
+            <PaperPlaneRight size={16} weight="bold" />
           </button>
         </form>
+
+        {/* Report Button (Desktop) */}
+        {!mobile && onReport && (
+          <button
+            type="button"
+            onClick={onReport}
+            className="hidden h-13 shrink-0 items-center gap-1.5 rounded-2xl border border-neutral-200/80 bg-white px-3.5 text-xs font-bold text-neutral-700 transition hover:bg-neutral-50 active:scale-95 dark:border-white/10 dark:bg-[#161616] dark:text-zinc-300 dark:hover:bg-[#202020] md:flex"
+            title="Report stranger"
+            aria-label="Report stranger"
+          >
+            <Flag size={15} />
+            <span>Report</span>
+          </button>
+        )}
+
+        {/* More Options Button (Desktop) */}
+        {!mobile && onStop && (
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setMoreMenuOpen(!moreMenuOpen)}
+              className="flex h-13 w-11 shrink-0 items-center justify-center rounded-2xl border border-neutral-200/80 bg-white text-neutral-700 transition hover:bg-neutral-50 active:scale-95 dark:border-white/10 dark:bg-[#161616] dark:text-zinc-300 dark:hover:bg-[#202020]"
+              title="More actions"
+              aria-label="More actions"
+            >
+              <DotsThree size={20} weight="bold" />
+            </button>
+
+            {moreMenuOpen && (
+              <div
+                className="absolute bottom-15 right-0 z-20 w-40 overflow-hidden rounded-2xl border border-neutral-200/80 bg-white p-1 text-xs shadow-xl transition-colors dark:border-white/15 dark:bg-[#181818]"
+                onMouseLeave={() => setMoreMenuOpen(false)}
+              >
+                {onReport && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMoreMenuOpen(false);
+                      onReport();
+                    }}
+                    className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left font-medium text-neutral-800 transition hover:bg-neutral-100 dark:text-zinc-200 dark:hover:bg-white/10"
+                  >
+                    <Flag size={14} /> Report stranger
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMoreMenuOpen(false);
+                    onStop();
+                  }}
+                  className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left font-medium text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/15"
+                >
+                  <PhoneDisconnect size={14} /> Leave chat
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );
